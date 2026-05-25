@@ -884,8 +884,13 @@
   .mode-button:disabled { opacity: 0.45; cursor: not-allowed; }
   .mode-kids { border-color: rgba(255,107,157,0.5); }
   .mode-kids:hover:not(:disabled) { border-color: var(--pink); }
+  .mode-kids.selected { border-color: var(--pink); background: rgba(255,107,157,0.18); box-shadow: 0 0 0 4px rgba(255,107,157,0.25); }
   .mode-advanced { border-color: rgba(78,205,196,0.5); }
   .mode-advanced:hover:not(:disabled) { border-color: var(--mint); }
+  .mode-advanced.selected { border-color: var(--mint); background: rgba(78,205,196,0.18); box-shadow: 0 0 0 4px rgba(78,205,196,0.25); }
+  .intro-launch-button { margin-top: 6px; }
+  .intro-launch-button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .intro-sub-foot { margin-top: 4px; }
   .mode-emoji { font-size: 44px; line-height: 1; }
   .mode-title { font-family: var(--font-title); font-size: 24px; }
   .mode-desc { font-size: 15px; color: var(--text-dim); line-height: 1.45; text-align: center; }

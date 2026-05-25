@@ -4,10 +4,12 @@
 // Intro Screen
 // ───────────────────────────────────────────────
 function IntroScreen({ onStart, motionReduced }) {
-  const [launching, setLaunching] = React.useState(null); // null | 'kids' | 'advanced'
-  const handleStart = (mode) => {
-    setLaunching(mode);
-    setTimeout(() => onStart(mode), motionReduced ? 100 : 1100);
+  const [selectedMode, setSelectedMode] = React.useState(null); // null | 'kids' | 'advanced'
+  const [launching, setLaunching] = React.useState(false);
+  const handleStart = () => {
+    if (!selectedMode) return;
+    setLaunching(true);
+    setTimeout(() => onStart(selectedMode), motionReduced ? 100 : 1100);
   };
   return (
     <div className="screen intro-screen" data-screen-label="01 Intro">
@@ -38,27 +40,37 @@ function IntroScreen({ onStart, motionReduced }) {
         </svg>
       </div>
       <h1 className="intro-title">우리 태양계 친구들을<br/>만나러 갈까요?</h1>
+      <p className="intro-sub">먼저 모드를 골라줘</p>
       <div className="intro-mode-grid">
         <button
-          className="mode-button mode-kids"
-          onClick={() => handleStart('kids')}
-          disabled={!!launching}
+          className={`mode-button mode-kids ${selectedMode === 'kids' ? 'selected' : ''}`}
+          onClick={() => setSelectedMode('kids')}
+          disabled={launching}
+          aria-pressed={selectedMode === 'kids'}
         >
           <div className="mode-emoji">🌈</div>
           <div className="mode-title">유아용</div>
           <div className="mode-desc">친구처럼 인사하고<br/>재미있게 놀아요</div>
         </button>
         <button
-          className="mode-button mode-advanced"
-          onClick={() => handleStart('advanced')}
-          disabled={!!launching}
+          className={`mode-button mode-advanced ${selectedMode === 'advanced' ? 'selected' : ''}`}
+          onClick={() => setSelectedMode('advanced')}
+          disabled={launching}
+          aria-pressed={selectedMode === 'advanced'}
         >
           <div className="mode-emoji">📚</div>
           <div className="mode-title">초등 4~6학년</div>
           <div className="mode-desc">사진·수치·탐사 기록까지<br/>제대로 공부해요</div>
         </button>
       </div>
-      <p className="intro-sub">9개의 우주 친구가 너를 기다리고 있어!</p>
+      <button
+        className="big-button pink-button intro-launch-button"
+        onClick={handleStart}
+        disabled={!selectedMode || launching}
+      >
+        🚀 출발!
+      </button>
+      <p className="intro-sub-foot">9개의 우주 친구가 너를 기다리고 있어!</p>
     </div>
   );
 }
