@@ -20,10 +20,11 @@ function App() {
   const defaults = window.TWEAK_DEFAULTS || {};
   const [tweaks, setTweak] = useTweaks(defaults);
 
-  const [screen, setScreen] = React.useState('intro'); // 'intro' | 'home' | 'detail' | 'done'
+  const [screen, setScreen] = React.useState('intro'); // 'intro' | 'home' | 'detail' | 'done' | 'quiz' | 'quiz-result'
   const [mode, setMode] = React.useState('kids'); // 'kids' | 'advanced'
   const [currentId, setCurrentId] = React.useState(null);
   const [visited, setVisited] = React.useState([]);
+  const [quizResult, setQuizResult] = React.useState(null);
 
   const motionReduced = tweaks.motionReduced;
   const largeText = tweaks.largeText;
@@ -141,7 +142,26 @@ function App() {
             orbitSpeed={orbitSpeed}
             motionReduced={motionReduced}
             layout={tweaks.homeLayout}
+            mode={mode}
             onHome={() => { try { window.speechSynthesis.cancel(); } catch(e) {} setVisited([]); setScreen('intro'); }}
+            onStartQuiz={() => { try { window.speechSynthesis.cancel(); } catch(e) {} setScreen('quiz'); }}
+          />
+        )}
+        {screen === 'quiz' && (
+          <QuizScreen
+            mode={mode}
+            onSpeak={speak}
+            ttsEnabled={ttsEnabled}
+            onComplete={(result) => { setQuizResult(result); setScreen('quiz-result'); }}
+            onHome={() => { try { window.speechSynthesis.cancel(); } catch(e) {} setScreen('home'); }}
+          />
+        )}
+        {screen === 'quiz-result' && quizResult && (
+          <QuizResultScreen
+            result={quizResult}
+            onRestudy={() => { setQuizResult(null); setScreen('home'); }}
+            onNewQuiz={() => { setQuizResult(null); setScreen('quiz'); }}
+            onHome={() => { setQuizResult(null); setScreen('home'); }}
           />
         )}
         {screen === 'detail' && current && mode === 'advanced' && (

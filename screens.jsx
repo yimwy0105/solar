@@ -78,7 +78,7 @@ function IntroScreen({ onStart, motionReduced }) {
 // ───────────────────────────────────────────────
 // Home Screen — 태양계 지도 (orbit)
 // ───────────────────────────────────────────────
-function HomeScreen({ planets, onSelect, visited, orbitSpeed, motionReduced, layout, onHome }) {
+function HomeScreen({ planets, onSelect, visited, orbitSpeed, motionReduced, layout, onHome, onStartQuiz, mode }) {
   const [hoveredId, setHoveredId] = React.useState(null);
   const sun = planets[0];
   const others = planets.slice(1);
@@ -195,6 +195,11 @@ function HomeScreen({ planets, onSelect, visited, orbitSpeed, motionReduced, lay
           );
         })}
       </div>
+
+      <button className="quiz-cta" onClick={onStartQuiz}>
+        🎯 문제 풀기 (10문제)
+        <span className="quiz-cta-sub">{mode === 'advanced' ? '초등 4~6학년' : '유아용'} 난이도</span>
+      </button>
     </div>
   );
 }
@@ -574,4 +579,194 @@ function CompletionScreen({ planets, onRestart }) {
   );
 }
 
-Object.assign(window, { IntroScreen, HomeScreen, DetailScreen, AdvancedDetailScreen, CompletionScreen });
+// ───────────────────────────────────────────────
+// Quiz Screen — 10문제, 진행 중 피드백 없음
+// ───────────────────────────────────────────────
+function pickQuiz(bank) {
+  const sample = [...bank].sort(() => Math.random() - 0.5).slice(0, 10);
+  return sample.map((q) => {
+    const order = [0, 1, 2, 3, 4].sort(() => Math.random() - 0.5);
+    return {
+      ...q,
+      options: order.map((i) => q.options[i]),
+      answer: order.indexOf(q.answer),
+    };
+  });
+}
+
+function QuizScreen({ mode, onComplete, onHome, onSpeak, ttsEnabled }) {
+  const bank = ((window.QUIZ_BANK || {})[mode] || []);
+  const [questions] = React.useState(() => pickQuiz(bank));
+  const [idx, setIdx] = React.useState(0);
+  const [selected, setSelected] = React.useState(-1);
+  const [answers, setAnswers] = React.useState([]);
+
+  const cur = questions[idx];
+  const isLast = idx === questions.length - 1;
+
+  const speakQ = () => {
+    if (!onSpeak || !cur) return;
+    const text = cur.q + ' ' + cur.options.map((o, i) => `${i + 1}번. ${o}.`).join(' ');
+    onSpeak(text);
+  };
+
+  React.useEffect(() => {
+    if (ttsEnabled && cur) {
+      const t = setTimeout(() => speakQ(), 400);
+      return () => clearTimeout(t);
+    }
+  }, [idx]);
+
+  const handleNext = () => {
+    const newAnswers = [...answers, selected];
+    setSelected(-1);
+    if (isLast) {
+      try { window.speechSynthesis.cancel(); } catch (e) {}
+      onComplete({ questions, answers: newAnswers });
+    } else {
+      setAnswers(newAnswers);
+      setIdx(idx + 1);
+    }
+  };
+
+  if (!cur) {
+    return (
+      <div className="screen quiz-screen" data-screen-label="Quiz">
+        <Starfield count={40} />
+        <p style={{ color: 'white', padding: 40 }}>문제를 불러올 수 없어요.</p>
+        <button className="big-button pink-button" onClick={onHome}>🏠 메인으로</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="screen quiz-screen" data-screen-label="Quiz">
+      <Starfield count={50} />
+
+      <header className="quiz-header">
+        <button className="ghost-button" onClick={onHome} aria-label="처음으로">
+          🏠 메인
+        </button>
+        <div className="quiz-progress">
+          <span className="quiz-progress-current">{idx + 1}</span>
+          <span className="quiz-progress-sep"> / </span>
+          <span className="quiz-progress-total">{questions.length}</span>
+        </div>
+        <button className="ghost-button" onClick={speakQ} disabled={!ttsEnabled} aria-label="문제 들려주기">
+          {ttsEnabled ? '🔊 들려줘' : '🔇'}
+        </button>
+      </header>
+
+      <div className="quiz-progress-bar">
+        <div className="quiz-progress-fill" style={{ width: `${((idx + 1) / questions.length) * 100}%` }} />
+      </div>
+
+      <div className="quiz-body">
+        <h2 className="quiz-question">{cur.q}</h2>
+        <div className="quiz-options">
+          {cur.options.map((opt, i) => (
+            <button
+              key={i}
+              className={`quiz-option ${selected === i ? 'selected' : ''}`}
+              onClick={() => setSelected(i)}
+            >
+              <span className="quiz-option-num">{i + 1}</span>
+              <span className="quiz-option-text">{opt}</span>
+            </button>
+          ))}
+        </div>
+        <button
+          className="big-button mint-button quiz-next"
+          onClick={handleNext}
+          disabled={selected === -1}
+        >
+          {isLast ? '🎉 결과 보기' : '다음 →'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ───────────────────────────────────────────────
+// Quiz Result Screen
+// ───────────────────────────────────────────────
+function QuizResultScreen({ result, onRestudy, onNewQuiz, onHome }) {
+  const { questions, answers } = result;
+  const correctCount = answers.reduce((acc, a, i) => acc + (a === questions[i].answer ? 1 : 0), 0);
+  const total = questions.length;
+  const [expanded, setExpanded] = React.useState({});
+
+  const msg =
+    correctCount === total ? '🌟 만점! 우주 박사!' :
+    correctCount >= Math.ceil(total * 0.8) ? '👍 정말 잘했어요!' :
+    correctCount >= Math.ceil(total * 0.5) ? '😊 좋아요! 한 번 더 도전해봐요!' :
+    '📚 다시 공부하고 도전해봐요!';
+
+  return (
+    <div className="screen quiz-result-screen" data-screen-label="Quiz Result">
+      <Starfield count={80} />
+
+      <header className="quiz-header">
+        <button className="ghost-button" onClick={onHome} aria-label="처음으로">
+          🏠 메인
+        </button>
+        <h2 className="quiz-result-title">🎯 결과</h2>
+        <span style={{ width: 80 }} />
+      </header>
+
+      <div className="quiz-body quiz-result-body">
+        <div className="quiz-score">
+          <div className="quiz-score-big">{correctCount}<span className="quiz-score-of"> / {total}</span></div>
+          <div className="quiz-score-msg">{msg}</div>
+        </div>
+
+        <div className="quiz-review">
+          <h3 className="quiz-review-heading">📖 정답과 해설</h3>
+          {questions.map((q, i) => {
+            const userAns = answers[i];
+            const isCorrect = userAns === q.answer;
+            const isOpen = !!expanded[i];
+            return (
+              <div key={i} className={`quiz-review-item ${isCorrect ? 'correct' : 'wrong'}`}>
+                <button
+                  className="quiz-review-head"
+                  onClick={() => setExpanded({ ...expanded, [i]: !isOpen })}
+                  aria-expanded={isOpen}
+                >
+                  <span className="quiz-review-mark">{isCorrect ? '✅' : '❌'}</span>
+                  <span className="quiz-review-q">{i + 1}. {q.q}</span>
+                  <span className="quiz-review-toggle">{isOpen ? '▲' : '▼'}</span>
+                </button>
+                {isOpen && (
+                  <div className="quiz-review-body">
+                    {!isCorrect && (
+                      <div className="quiz-review-row mine">
+                        <span className="quiz-tag wrong-tag">내 답</span>
+                        <span>{q.options[userAns]}</span>
+                      </div>
+                    )}
+                    <div className="quiz-review-row">
+                      <span className="quiz-tag correct-tag">정답</span>
+                      <span>{q.options[q.answer]}</span>
+                    </div>
+                    <div className="quiz-review-explain">💡 {q.explain}</div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="quiz-actions">
+          <button className="big-button pink-button" onClick={onRestudy}>🎓 행성 다시 공부하기</button>
+          <button className="big-button mint-button" onClick={onNewQuiz}>🎯 새 문제 풀기</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, {
+  IntroScreen, HomeScreen, DetailScreen, AdvancedDetailScreen,
+  CompletionScreen, QuizScreen, QuizResultScreen,
+});
