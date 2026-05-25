@@ -1,3 +1,20 @@
+// Korean voice quality score (lower = better). Prefers neural/premium voices,
+// known good Korean voices, online (non-local) voices, and female timbre
+// (warmer for kid-facing app).
+function koVoiceScore(v) {
+  const n = (v.name || '').toLowerCase();
+  let s = 0;
+  if (n.match(/neural|natural|premium|enhanced/)) s += 200;
+  if (n.includes('wavenet')) s += 180;
+  if (n.includes('google')) s += 150;
+  if (n.includes('yuna')) s += 120;
+  if (n.includes('heami') || n.includes('seoyeon')) s += 100;
+  if (n.match(/siwoo|sora|minji|jimin|sunhi|injoon/)) s += 80;
+  if (!v.localService) s += 40;
+  if (n.match(/female|woman|여/)) s += 20;
+  return -s;
+}
+
 // Main App
 function App() {
   const defaults = window.TWEAK_DEFAULTS || {};
@@ -22,19 +39,7 @@ function App() {
     const load = () => {
       const all = window.speechSynthesis.getVoices();
       const ko = all.filter((v) => v.lang && v.lang.toLowerCase().startsWith('ko'));
-      // Sort: prefer Google / online / premium / named voices first
-      const score = (v) => {
-        const n = (v.name || '').toLowerCase();
-        let s = 0;
-        if (n.includes('google')) s += 100;
-        if (n.includes('yuna')) s += 80;
-        if (n.includes('heami') || n.includes('seoyeon')) s += 70;
-        if (n.includes('siwoo') || n.includes('sora') || n.includes('minji')) s += 60;
-        if (!v.localService) s += 30; // online voices usually better
-        if (n.match(/female|woman|여/)) s += 10;
-        return -s;
-      };
-      ko.sort((a, b) => score(a) - score(b));
+      ko.sort((a, b) => koVoiceScore(a) - koVoiceScore(b));
       setVoices(ko);
     };
     load();
@@ -65,22 +70,11 @@ function App() {
     let voice = null;
     if (chosenVoiceURI) voice = all.find((v) => v.voiceURI === chosenVoiceURI);
     if (!voice && ko.length) {
-      // Same scoring as in voice list
-      const score = (v) => {
-        const n = (v.name || '').toLowerCase();
-        let s = 0;
-        if (n.includes('google')) s += 100;
-        if (n.includes('yuna')) s += 80;
-        if (n.includes('heami') || n.includes('seoyeon')) s += 70;
-        if (!v.localService) s += 30;
-        return -s;
-      };
-      const sorted = [...ko].sort((a, b) => score(a) - score(b));
-      voice = sorted[0];
+      voice = [...ko].sort((a, b) => koVoiceScore(a) - koVoiceScore(b))[0];
     }
     if (voice) u.voice = voice;
-    u.rate = 0.92;
-    u.pitch = 1.25;
+    u.rate = 0.95;
+    u.pitch = 1.4; // 어린이 톤에 가깝게 (Web Speech 한계 안에서)
     u.volume = 1;
     window.speechSynthesis.speak(u);
   }, [ttsEnabled, karaokeEnabled, chosenVoiceURI]);
