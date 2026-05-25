@@ -582,13 +582,18 @@ function CompletionScreen({ planets, onRestart }) {
 // ───────────────────────────────────────────────
 // Quiz Screen — 10문제, 진행 중 피드백 없음
 // ───────────────────────────────────────────────
-function pickQuiz(bank) {
+function pickQuiz(bank, mode) {
+  // 유아 = 4지선다, 고학년 = 5지선다
+  const optCount = mode === 'kids' ? 4 : 5;
   const sample = [...bank].sort(() => Math.random() - 0.5).slice(0, 10);
   return sample.map((q) => {
-    const order = [0, 1, 2, 3, 4].sort(() => Math.random() - 0.5);
+    const trimmed = q.options.slice(0, optCount);
+    // 정답이 trim 범위 밖이면 셔플 생략 (안전장치)
+    if (q.answer >= optCount) return { ...q, options: trimmed };
+    const order = trimmed.map((_, i) => i).sort(() => Math.random() - 0.5);
     return {
       ...q,
-      options: order.map((i) => q.options[i]),
+      options: order.map((i) => trimmed[i]),
       answer: order.indexOf(q.answer),
     };
   });
@@ -596,7 +601,7 @@ function pickQuiz(bank) {
 
 function QuizScreen({ mode, onComplete, onHome, onSpeak, ttsEnabled }) {
   const bank = ((window.QUIZ_BANK || {})[mode] || []);
-  const [questions] = React.useState(() => pickQuiz(bank));
+  const [questions] = React.useState(() => pickQuiz(bank, mode));
   const [idx, setIdx] = React.useState(0);
   const [selected, setSelected] = React.useState(-1);
   const [answers, setAnswers] = React.useState([]);
