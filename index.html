@@ -227,6 +227,7 @@
     z-index: 2;
     color: var(--text);
     text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    pointer-events: none;
   }
   .home-sub {
     font-family: var(--font-body);
@@ -234,6 +235,32 @@
     color: var(--text-soft);
     margin-bottom: 12px;
     z-index: 2;
+    pointer-events: none;
+  }
+
+  .home-back-button {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 999px;
+    color: var(--text);
+    font-family: var(--font-title);
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .home-back-button:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
+  body[data-theme="pastel"] .home-back-button {
+    background: rgba(255,255,255,0.7);
+    border-color: rgba(42,45,91,0.2);
   }
 
   .progress-bar {
@@ -249,6 +276,7 @@
     border: 2px solid rgba(255,255,255,0.2);
     border-radius: 999px;
     z-index: 10;
+    pointer-events: none;
   }
   body[data-theme="pastel"] .progress-bar {
     background: rgba(255,255,255,0.7);

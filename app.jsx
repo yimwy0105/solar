@@ -141,6 +141,7 @@ function App() {
             orbitSpeed={orbitSpeed}
             motionReduced={motionReduced}
             layout={tweaks.homeLayout}
+            onHome={() => { try { window.speechSynthesis.cancel(); } catch(e) {} setVisited([]); setScreen('intro'); }}
           />
         )}
         {screen === 'detail' && current && mode === 'advanced' && (

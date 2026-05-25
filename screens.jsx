@@ -78,7 +78,7 @@ function IntroScreen({ onStart, motionReduced }) {
 // ───────────────────────────────────────────────
 // Home Screen — 태양계 지도 (orbit)
 // ───────────────────────────────────────────────
-function HomeScreen({ planets, onSelect, visited, orbitSpeed, motionReduced, layout }) {
+function HomeScreen({ planets, onSelect, visited, orbitSpeed, motionReduced, layout, onHome }) {
   const [hoveredId, setHoveredId] = React.useState(null);
   const sun = planets[0];
   const others = planets.slice(1);
@@ -108,6 +108,10 @@ function HomeScreen({ planets, onSelect, visited, orbitSpeed, motionReduced, lay
   return (
     <div className="screen home-screen" data-screen-label="02 Home">
       <Starfield count={180} />
+
+      <button className="home-back-button" onClick={onHome} aria-label="처음 화면으로">
+        🏠 메인
+      </button>
 
       {/* Progress dots */}
       <div className="progress-bar">
