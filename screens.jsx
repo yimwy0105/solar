@@ -615,13 +615,6 @@ function QuizScreen({ mode, onComplete, onHome, onSpeak, ttsEnabled }) {
     onSpeak(text);
   };
 
-  React.useEffect(() => {
-    if (ttsEnabled && cur) {
-      const t = setTimeout(() => speakQ(), 400);
-      return () => clearTimeout(t);
-    }
-  }, [idx]);
-
   const handleNext = () => {
     const newAnswers = [...answers, selected];
     setSelected(-1);
