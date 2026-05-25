@@ -48,6 +48,13 @@ function App() {
 
   const chosenVoiceURI = tweaks.voiceURI;
 
+  // 사용자가 voice를 직접 고르지 않았으면 "Google 한국의"를 기본으로 선택
+  React.useEffect(() => {
+    if (chosenVoiceURI || voices.length === 0) return;
+    const google = voices.find((v) => (v.name || '').toLowerCase().includes('google'));
+    if (google) setTweak('voiceURI', google.voiceURI);
+  }, [voices, chosenVoiceURI]);
+
   // Apply theme to body
   React.useEffect(() => {
     document.body.dataset.theme = tweaks.theme || 'cosmic';
@@ -74,7 +81,7 @@ function App() {
     }
     if (voice) u.voice = voice;
     u.rate = 0.95;
-    u.pitch = 1.4; // 어린이 톤에 가깝게 (Web Speech 한계 안에서)
+    u.pitch = 1.3;
     u.volume = 1;
     window.speechSynthesis.speak(u);
   }, [ttsEnabled, karaokeEnabled, chosenVoiceURI]);
