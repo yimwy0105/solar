@@ -27,6 +27,13 @@ const PLANETS = [
       { icon: '🔥', label: '온도', text: '엄청엄청 뜨거워서 가까이 가면 안 돼요' },
       { icon: '⭐', label: '역할', text: '모두를 빙글빙글 돌게 해요' },
     ],
+    lowerFacts: [
+      { icon: '⭐', label: '종류', text: '노란색으로 빛나는 별이에요' },
+      { icon: '📏', label: '크기', text: '지구를 109개 줄세울 만큼 커요' },
+      { icon: '🔥', label: '온도', text: '표면이 약 5,500도예요' },
+      { icon: '🌟', label: '나이', text: '약 46억 년이 되었어요' },
+      { icon: '💨', label: '재료', text: '수소와 헬륨 가스로 되어 있어요' },
+    ],
     advanced: {
       image: 'assets/planets/sun.jpg',
       imageCredit: 'NASA/SDO (자기장 합성)',
@@ -74,6 +81,13 @@ const PLANETS = [
       { icon: '🤏', label: '크기', text: '8개 행성 중에 제일 작아요' },
       { icon: '🌗', label: '낮과 밤', text: '낮엔 너~무 덥고, 밤엔 너~무 추워요', interactive: 'daynight' },
       { icon: '🕐', label: '하루', text: '하루(자전)가 59일이나 걸려요' },
+    ],
+    lowerFacts: [
+      { icon: '🤏', label: '크기', text: '8개 행성 중에서 가장 작아요' },
+      { icon: '☀️', label: '태양과 거리', text: '태양에 가장 가까워요 (약 5,800만 km)' },
+      { icon: '⏰', label: '1년', text: '88일이면 태양을 한 바퀴 돌아요' },
+      { icon: '🌗', label: '온도', text: '낮은 약 430도, 밤은 약 영하 180도예요', interactive: 'daynight' },
+      { icon: '🌑', label: '위성', text: '달 친구가 하나도 없어요' },
     ],
     advanced: {
       image: 'assets/planets/mercury.jpg',
@@ -124,6 +138,13 @@ const PLANETS = [
       { icon: '👯', label: '크기', text: '지구랑 거의 똑같아서 쌍둥이 같아요' },
       { icon: '☁️', label: '구름', text: '구름이 가득해서 얼굴이 잘 안 보여요' },
       { icon: '🥵', label: '온도', text: '태양계에서 제일 뜨거운 행성이에요' },
+    ],
+    lowerFacts: [
+      { icon: '👯', label: '크기', text: '지구와 거의 비슷해요' },
+      { icon: '🔥', label: '온도', text: '약 467도로 태양계에서 가장 뜨거워요' },
+      { icon: '🔄', label: '자전', text: '다른 행성과 반대로 돌아요' },
+      { icon: '☁️', label: '대기', text: '두꺼운 이산화탄소 구름으로 덮여 있어요' },
+      { icon: '✨', label: '별명', text: '"샛별"이라고도 불려요' },
     ],
     advanced: {
       image: 'assets/planets/venus.jpg',
@@ -176,6 +197,13 @@ const PLANETS = [
       { icon: '🌳', label: '생명', text: '나무, 동물, 사람이 살아요' },
       { icon: '🌙', label: '친구', text: '달이 우리를 따라다녀요' },
     ],
+    lowerFacts: [
+      { icon: '💧', label: '바다', text: '표면의 71%가 바다예요' },
+      { icon: '🌳', label: '생명', text: '식물, 동물, 사람이 함께 살아요' },
+      { icon: '🌙', label: '위성', text: '달 친구가 1개 있어요' },
+      { icon: '⏰', label: '하루', text: '자전이 약 24시간이에요' },
+      { icon: '📅', label: '1년', text: '365일에 태양을 한 바퀴 돌아요' },
+    ],
     advanced: {
       image: 'assets/planets/earth.jpg',
       imageCredit: 'NASA/NPP - Blue Marble (2012)',
@@ -226,6 +254,13 @@ const PLANETS = [
       { icon: '🟥', label: '색깔', text: '흙이 빨개서 빨간 행성이라고 불려요' },
       { icon: '🏔️', label: '큰 산', text: '에베레스트보다 3배 더 높은 산이 있어요' },
       { icon: '🤖', label: '손님', text: '지구에서 로봇 친구들이 놀러 와요' },
+    ],
+    lowerFacts: [
+      { icon: '🟥', label: '색깔', text: '녹슨 흙 때문에 빨갛게 보여요' },
+      { icon: '🏔️', label: '큰 산', text: '올림푸스 화산은 약 22 km 높이예요' },
+      { icon: '🤖', label: '탐사', text: '큐리오시티 같은 로봇이 다녀요' },
+      { icon: '🌙', label: '위성', text: '포보스와 데이모스 2개가 있어요' },
+      { icon: '⏰', label: '하루', text: '약 24시간 39분으로 지구와 비슷해요' },
     ],
     advanced: {
       image: 'assets/planets/mars.jpg',
@@ -280,6 +315,13 @@ const PLANETS = [
       { icon: '🌪️', label: '빨간 점', text: '빨간 점은 엄청 큰 태풍이에요' },
       { icon: '🟡', label: '친구', text: '위성이 95명! 그중 이오는 노란색이에요' },
     ],
+    lowerFacts: [
+      { icon: '🐘', label: '크기', text: '지구보다 11배 더 커요' },
+      { icon: '🌪️', label: '대적점', text: '수백 년째 도는 거대한 폭풍이 있어요' },
+      { icon: '🌙', label: '위성', text: '위성이 95개나 있어요' },
+      { icon: '💨', label: '재료', text: '수소와 헬륨 가스로 된 거인 행성이에요' },
+      { icon: '⚡', label: '하루', text: '약 9.9시간으로 가장 짧아요' },
+    ],
     advanced: {
       image: 'assets/planets/jupiter.jpg',
       imageCredit: 'NASA/JPL-Caltech/SwRI/MSSS - Juno',
@@ -332,6 +374,13 @@ const PLANETS = [
       { icon: '💍', label: '고리', text: '고리는 얼음이랑 돌멩이로 만들어졌어요', interactive: 'rings' },
       { icon: '🛁', label: '무게', text: '물보다 가벼워서 욕조에 띄울 수도 있어요' },
       { icon: '👨‍👩‍👧‍👦', label: '친구', text: '위성이 140명도 넘어요' },
+    ],
+    lowerFacts: [
+      { icon: '💍', label: '고리', text: '얼음과 돌멩이로 만들어진 멋진 고리가 있어요', interactive: 'rings' },
+      { icon: '🛁', label: '무게', text: '물보다 가벼워서 큰 욕조에 띄울 수 있어요' },
+      { icon: '🌙', label: '위성', text: '위성이 274개로 가장 많아요' },
+      { icon: '🔷', label: '북극', text: '6각형 모양의 폭풍이 있어요' },
+      { icon: '🛰️', label: '탐사', text: '카시니 탐사선이 13년간 관측했어요' },
     ],
     advanced: {
       image: 'assets/planets/saturn.jpg',
@@ -386,6 +435,13 @@ const PLANETS = [
       { icon: '💨', label: '재료', text: '파란색 가스로 이루어져 있어요' },
       { icon: '🥶', label: '온도', text: '엄청엄청 차가워요. 영하 220도!' },
     ],
+    lowerFacts: [
+      { icon: '🛌', label: '자전축', text: '98도 옆으로 누워서 굴러가요', interactive: 'tilt' },
+      { icon: '🟦', label: '색깔', text: '메탄 가스가 청록색으로 보이게 해요' },
+      { icon: '🥶', label: '온도', text: '평균 영하 220도로 가장 차가워요' },
+      { icon: '📅', label: '1년', text: '84년에 태양을 한 바퀴 돌아요' },
+      { icon: '🔭', label: '발견', text: '1781년 윌리엄 허셜이 발견했어요' },
+    ],
     advanced: {
       image: 'assets/planets/uranus.jpg',
       imageCredit: 'NASA/JPL-Caltech - Voyager 2 (1986)',
@@ -435,6 +491,13 @@ const PLANETS = [
       { icon: '🌬️', label: '바람', text: '바람이 시속 2,000km로 불어요' },
       { icon: '📅', label: '1년', text: '태양에서 너무 멀어서 1년이 165년이에요' },
       { icon: '🔄', label: '친구', text: '트리톤 위성은 거꾸로 돌아요' },
+    ],
+    lowerFacts: [
+      { icon: '🌬️', label: '바람', text: '시속 2,000 km로 가장 빠른 바람이 불어요' },
+      { icon: '📏', label: '태양과 거리', text: '태양에서 가장 멀어요 (약 45억 km)' },
+      { icon: '📅', label: '1년', text: '165년이에요' },
+      { icon: '🧮', label: '발견', text: '1846년 수학으로 위치를 예측해 찾았어요' },
+      { icon: '🔄', label: '위성', text: '트리톤은 반대 방향으로 돌아요' },
     ],
     advanced: {
       image: 'assets/planets/neptune.jpg',

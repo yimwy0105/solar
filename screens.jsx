@@ -41,7 +41,7 @@ function IntroScreen({ onStart, motionReduced }) {
       </div>
       <h1 className="intro-title">우리 태양계 친구들을<br/>만나러 갈까요?</h1>
       <p className="intro-sub">먼저 모드를 골라줘</p>
-      <div className="intro-mode-grid">
+      <div className="intro-mode-grid intro-mode-grid--three">
         <button
           className={`mode-button mode-kids ${selectedMode === 'kids' ? 'selected' : ''}`}
           onClick={() => setSelectedMode('kids')}
@@ -51,6 +51,16 @@ function IntroScreen({ onStart, motionReduced }) {
           <div className="mode-emoji">🌈</div>
           <div className="mode-title">유아용</div>
           <div className="mode-desc">친구처럼 인사하고<br/>재미있게 놀아요</div>
+        </button>
+        <button
+          className={`mode-button mode-lower ${selectedMode === 'lower' ? 'selected' : ''}`}
+          onClick={() => setSelectedMode('lower')}
+          disabled={launching}
+          aria-pressed={selectedMode === 'lower'}
+        >
+          <div className="mode-emoji">🌱</div>
+          <div className="mode-title">초등 1~3학년</div>
+          <div className="mode-desc">짧은 글로<br/>차근차근 알아봐요</div>
         </button>
         <button
           className={`mode-button mode-advanced ${selectedMode === 'advanced' ? 'selected' : ''}`}
@@ -198,7 +208,9 @@ function HomeScreen({ planets, onSelect, visited, orbitSpeed, motionReduced, lay
 
       <button className="quiz-cta" onClick={onStartQuiz}>
         🎯 문제 풀기 (10문제)
-        <span className="quiz-cta-sub">{mode === 'advanced' ? '초등 4~6학년' : '유아용'} 난이도</span>
+        <span className="quiz-cta-sub">
+          {mode === 'advanced' ? '초등 4~6학년' : mode === 'lower' ? '초등 1~3학년' : '유아용'} 난이도
+        </span>
       </button>
     </div>
   );
@@ -207,7 +219,7 @@ function HomeScreen({ planets, onSelect, visited, orbitSpeed, motionReduced, lay
 // ───────────────────────────────────────────────
 // Detail Screen — 행성 상세
 // ───────────────────────────────────────────────
-function DetailScreen({ planet, onBack, onNext, onSpeak, ttsEnabled, karaokeEnabled, motionReduced, nextPlanet }) {
+function DetailScreen({ planet, mode, onBack, onNext, onSpeak, ttsEnabled, karaokeEnabled, motionReduced, nextPlanet }) {
   const [flipped, setFlipped] = React.useState({});
   const [ringTilt, setRingTilt] = React.useState(15);
   const [dayMode, setDayMode] = React.useState(true);
@@ -216,6 +228,9 @@ function DetailScreen({ planet, onBack, onNext, onSpeak, ttsEnabled, karaokeEnab
   const [bounce, setBounce] = React.useState(false);
   const [karaokeIdx, setKaraokeIdx] = React.useState(-1);
   const karaokeTimers = React.useRef([]);
+
+  // 저학년 모드면 lowerFacts 사용, 아니면 기본 facts
+  const facts = (mode === 'lower' && planet.lowerFacts) ? planet.lowerFacts : planet.facts;
 
   // 단어 분리
   const introWords = React.useMemo(() => planet.intro.split(/(\s+)/).filter(w => w.length), [planet.intro]);
@@ -391,7 +406,7 @@ function DetailScreen({ planet, onBack, onNext, onSpeak, ttsEnabled, karaokeEnab
           </p>
 
           <div className="fact-cards">
-            {planet.facts.map((fact, i) => (
+            {facts.map((fact, i) => (
               <button
                 key={i}
                 className={`fact-card ${flipped[i] ? 'flipped' : ''}`}
@@ -583,8 +598,8 @@ function CompletionScreen({ planets, onRestart }) {
 // Quiz Screen — 10문제, 진행 중 피드백 없음
 // ───────────────────────────────────────────────
 function pickQuiz(bank, mode) {
-  // 유아 = 4지선다, 고학년 = 5지선다
-  const optCount = mode === 'kids' ? 4 : 5;
+  // 고학년 = 5지선다, 그 외(유아/저학년) = 4지선다
+  const optCount = mode === 'advanced' ? 5 : 4;
   const sample = [...bank].sort(() => Math.random() - 0.5).slice(0, 10);
   return sample.map((q) => {
     const trimmed = q.options.slice(0, optCount);

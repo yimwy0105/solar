@@ -177,6 +177,7 @@ function App() {
         {screen === 'detail' && current && mode !== 'advanced' && (
           <DetailScreen
             planet={current}
+            mode={mode}
             onBack={handleBack}
             onNext={handleNext}
             onSpeak={speak}
