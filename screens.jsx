@@ -270,12 +270,14 @@ function DetailScreen({ planet, onBack, onNext, onSpeak, ttsEnabled, karaokeEnab
   };
 
   const handleCardClick = (idx, fact) => {
+    const willFlip = !flipped[idx];
     setFlipped((f) => ({ ...f, [idx]: !f[idx] }));
     setBounce(true);
     setTimeout(() => setBounce(false), 300);
     if (fact.interactive === 'daynight') setDayMode((d) => !d);
     if (fact.interactive === 'tilt') setShowTilt((t) => !t);
     if (fact.interactive === 'rings') setRingTilt((t) => (t === 15 ? -25 : 15));
+    if (willFlip && ttsEnabled && onSpeak) onSpeak(fact.text);
   };
 
   React.useEffect(() => {
