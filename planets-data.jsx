@@ -1,4 +1,13 @@
 // 태양계 친구들 데이터
+//
+// 각 행성:
+//   - 유아용 (facts): 짧고 친근한 사실
+//   - advanced: 초등 4~6학년용 (NASA Science / 한국어 위키 출처)
+//       - image: NASA 퍼블릭 도메인 이미지 (로컬 assets/planets/)
+//       - stats: 기본 수치 (지름, 질량, 거리, 공전/자전, 온도, 위성, 중력, 대기)
+//       - story: 흥미로운 사실
+//       - exploration: 주요 탐사선 + 연도
+//       - links: 더 공부할 수 있는 외부 링크
 const PLANETS = [
   {
     id: 'sun',
@@ -18,6 +27,35 @@ const PLANETS = [
       { icon: '🔥', label: '온도', text: '엄청엄청 뜨거워서 가까이 가면 안 돼요' },
       { icon: '⭐', label: '역할', text: '모두를 빙글빙글 돌게 해요' },
     ],
+    advanced: {
+      image: 'assets/planets/sun.jpg',
+      imageCredit: 'NASA/SDO (자기장 합성)',
+      tagline: '태양계의 중심에서 빛과 열을 보내는 별',
+      stats: [
+        { label: '지름', value: '약 1,392,700 km', sub: '지구의 109배' },
+        { label: '질량', value: '지구의 333,000배', sub: '태양계 전체 질량의 99.86%' },
+        { label: '표면(광구) 온도', value: '약 5,500°C', sub: '중심핵은 약 1,500만°C' },
+        { label: '자전 주기', value: '약 25일 (적도)', sub: '극지방은 약 36일' },
+        { label: '나이', value: '약 46억 년', sub: '앞으로 약 50억 년 더 빛남' },
+        { label: '구성 성분', value: '수소 74%, 헬륨 24%', sub: '나머지는 산소·탄소·네온 등' },
+        { label: '분류', value: 'G2V형 (노란 왜성)' },
+      ],
+      story: [
+        '지구에서 태양까지 빛이 도착하는 데 약 8분 20초 걸려요.',
+        '태양 안에는 지구가 약 130만 개 들어갈 수 있어요.',
+        '태양은 가스로 된 별이라 위도마다 자전 속도가 달라요.',
+        '태양의 중력이 태양계의 모든 행성을 붙잡고 있어요.',
+      ],
+      exploration: [
+        { name: 'SOHO', year: 1995, desc: 'ESA·NASA 공동 — 태양 표면과 코로나를 관측' },
+        { name: 'SDO (태양 역학 관측소)', year: 2010, desc: '고해상도로 태양을 매일 촬영' },
+        { name: '파커 솔라 프로브', year: 2018, desc: '인류 역사상 태양에 가장 가까이 접근' },
+      ],
+      links: [
+        { label: '위키백과 - 태양', url: 'https://ko.wikipedia.org/wiki/%ED%83%9C%EC%96%91' },
+        { label: 'NASA Science - Sun', url: 'https://science.nasa.gov/sun/' },
+      ],
+    },
   },
   {
     id: 'mercury',
@@ -37,6 +75,37 @@ const PLANETS = [
       { icon: '🌗', label: '낮과 밤', text: '낮엔 너~무 덥고, 밤엔 너~무 추워요', interactive: 'daynight' },
       { icon: '🕐', label: '하루', text: '하루(자전)가 59일이나 걸려요' },
     ],
+    advanced: {
+      image: 'assets/planets/mercury.jpg',
+      imageCredit: 'NASA/JHUAPL/Carnegie - MESSENGER 컬러 모자이크',
+      tagline: '태양과 가장 가까운, 태양계에서 가장 작은 행성',
+      stats: [
+        { label: '지름', value: '4,879 km', sub: '지구의 0.38배' },
+        { label: '질량', value: '지구의 0.055배' },
+        { label: '태양과의 거리', value: '0.4 AU', sub: '약 5,800만 km' },
+        { label: '공전 주기', value: '88 지구일' },
+        { label: '자전 주기', value: '59 지구일', sub: '태양일은 176일' },
+        { label: '표면 온도', value: '-180°C ~ 430°C', sub: '낮밤 차이 약 610°C' },
+        { label: '위성', value: '0개' },
+        { label: '표면 중력', value: '지구의 0.38배' },
+        { label: '대기', value: '거의 없음 (얇은 외기권)' },
+      ],
+      story: [
+        '태양계에서 가장 작은 행성이에요.',
+        '태양과 가장 가깝지만, 가장 뜨거운 행성은 아니에요 (금성이 더 뜨거워요).',
+        '표면이 달처럼 운석 충돌구로 가득해요.',
+        '자전축이 거의 안 기울어져서 (2°) 계절이 없어요.',
+      ],
+      exploration: [
+        { name: '매리너 10호', year: 1973, desc: '수성을 처음으로 가까이서 본 탐사선' },
+        { name: '메신저 (MESSENGER)', year: 2011, desc: '수성 궤도를 돈 첫 탐사선' },
+        { name: '베피콜롬보', year: 2018, desc: 'ESA·JAXA 공동 — 현재 항해 중' },
+      ],
+      links: [
+        { label: '위키백과 - 수성', url: 'https://ko.wikipedia.org/wiki/%EC%88%98%EC%84%B1' },
+        { label: 'NASA Science - Mercury', url: 'https://science.nasa.gov/mercury/' },
+      ],
+    },
   },
   {
     id: 'venus',
@@ -56,6 +125,38 @@ const PLANETS = [
       { icon: '☁️', label: '구름', text: '구름이 가득해서 얼굴이 잘 안 보여요' },
       { icon: '🥵', label: '온도', text: '태양계에서 제일 뜨거운 행성이에요' },
     ],
+    advanced: {
+      image: 'assets/planets/venus.jpg',
+      imageCredit: 'NASA/JPL - Magellan 레이더 모자이크',
+      tagline: '태양계에서 가장 뜨거운 행성, 지구의 쌍둥이',
+      stats: [
+        { label: '지름', value: '12,104 km', sub: '지구의 0.95배' },
+        { label: '질량', value: '지구의 0.815배' },
+        { label: '태양과의 거리', value: '0.72 AU', sub: '약 1억 800만 km' },
+        { label: '공전 주기', value: '225 지구일' },
+        { label: '자전 주기', value: '243 지구일', sub: '역방향 (해가 서쪽에서 뜸)' },
+        { label: '평균 표면 온도', value: '약 467°C', sub: '태양계에서 가장 뜨거움' },
+        { label: '위성', value: '0개' },
+        { label: '표면 중력', value: '지구의 0.90배' },
+        { label: '대기', value: '이산화탄소 96.5%, 질소 3.5%', sub: '황산 구름' },
+      ],
+      story: [
+        '태양계에서 가장 뜨거운 행성이에요 — 납을 녹일 정도예요.',
+        '다른 행성과 반대 방향으로 자전해요.',
+        '표면 기압은 지구의 약 93배 (수심 900m와 비슷한 압력).',
+        '"샛별", "개밥바라기"로 불리며 새벽·저녁에 가장 밝게 보여요.',
+        '여성 신의 이름이 붙은 유일한 행성이에요.',
+      ],
+      exploration: [
+        { name: '매리너 2호', year: 1962, desc: '인류 최초로 다른 행성을 탐사한 우주선' },
+        { name: '베네라 7호', year: 1970, desc: '소련 — 다른 행성에 처음 착륙한 탐사선' },
+        { name: '마젤란 (Magellan)', year: 1989, desc: '레이더로 금성 표면 전체 지도 작성' },
+      ],
+      links: [
+        { label: '위키백과 - 금성', url: 'https://ko.wikipedia.org/wiki/%EA%B8%88%EC%84%B1' },
+        { label: 'NASA Science - Venus', url: 'https://science.nasa.gov/venus/' },
+      ],
+    },
   },
   {
     id: 'earth',
@@ -75,6 +176,38 @@ const PLANETS = [
       { icon: '🌳', label: '생명', text: '나무, 동물, 사람이 살아요' },
       { icon: '🌙', label: '친구', text: '달이 우리를 따라다녀요' },
     ],
+    advanced: {
+      image: 'assets/planets/earth.jpg',
+      imageCredit: 'NASA/NPP - Blue Marble (2012)',
+      tagline: '태양계에서 생명이 사는 유일한 행성',
+      stats: [
+        { label: '지름', value: '12,756 km', sub: '적도 기준' },
+        { label: '질량', value: '5.97 × 10²⁴ kg' },
+        { label: '태양과의 거리', value: '1 AU', sub: '약 1억 4,960만 km' },
+        { label: '공전 주기', value: '365.25일' },
+        { label: '자전 주기', value: '23시간 56분' },
+        { label: '평균 표면 온도', value: '약 15°C' },
+        { label: '위성', value: '1개 (달)' },
+        { label: '표면 중력', value: '9.81 m/s² (= 1 g)' },
+        { label: '대기', value: '질소 78%, 산소 21%', sub: '나머지 1% (아르곤, CO₂ 등)' },
+      ],
+      story: [
+        '태양계에서 표면에 액체 물이 있는 유일한 행성이에요.',
+        '표면의 약 71%가 바다로 덮여 있어요.',
+        '약 45억 년 전에 만들어졌어요.',
+        '태양빛이 지구에 도착하는 데 약 8분 걸려요.',
+        '8개 행성 중 위성이 정확히 1개인 유일한 행성이에요.',
+      ],
+      exploration: [
+        { name: '아폴로 17호', year: 1972, desc: '"푸른 구슬(Blue Marble)" 사진을 처음 촬영' },
+        { name: '랜드샛 (Landsat)', year: 1972, desc: '~현재 — 지구 표면 변화 관측' },
+        { name: '국제우주정거장 (ISS)', year: 2000, desc: '~현재 — 사람이 살면서 지구 관측' },
+      ],
+      links: [
+        { label: '위키백과 - 지구', url: 'https://ko.wikipedia.org/wiki/%EC%A7%80%EA%B5%AC' },
+        { label: 'NASA Science - Earth', url: 'https://science.nasa.gov/earth/' },
+      ],
+    },
   },
   {
     id: 'mars',
@@ -94,6 +227,39 @@ const PLANETS = [
       { icon: '🏔️', label: '큰 산', text: '에베레스트보다 3배 더 높은 산이 있어요' },
       { icon: '🤖', label: '손님', text: '지구에서 로봇 친구들이 놀러 와요' },
     ],
+    advanced: {
+      image: 'assets/planets/mars.jpg',
+      imageCredit: 'NASA/JPL/USGS - Viking Orbiter 모자이크',
+      tagline: '붉은 사막 행성, 인류가 가장 많이 탐사한 행성',
+      stats: [
+        { label: '지름', value: '6,779 km', sub: '지구의 0.53배' },
+        { label: '질량', value: '지구의 0.107배' },
+        { label: '태양과의 거리', value: '1.5 AU', sub: '약 2억 2,800만 km' },
+        { label: '공전 주기', value: '687 지구일', sub: '약 1.88년' },
+        { label: '자전 주기', value: '24.6시간', sub: '지구와 비슷!' },
+        { label: '평균 표면 온도', value: '약 -65°C', sub: '범위: -153°C ~ 20°C' },
+        { label: '위성', value: '2개', sub: '포보스, 데이모스' },
+        { label: '표면 중력', value: '지구의 0.38배' },
+        { label: '대기', value: '이산화탄소 95%, 질소 3%' },
+      ],
+      story: [
+        '표면이 산화철(녹) 때문에 붉게 보여서 "붉은 행성"이라고 불러요.',
+        '태양계에서 가장 높은 산(올림푸스 화산, 약 22 km)이 있어요.',
+        '태양계에서 가장 긴 협곡(마리네리스 계곡, 4,000 km)이 있어요.',
+        '하루 길이가 24시간 39분으로 지구와 거의 같아요.',
+        '과거에 물이 흘렀던 흔적이 발견됐어요.',
+      ],
+      exploration: [
+        { name: '바이킹 1·2호', year: 1976, desc: '화성에 처음 성공적으로 착륙' },
+        { name: '마스 패스파인더 + 소저너', year: 1997, desc: '첫 화성 탐사 로버' },
+        { name: '큐리오시티 (Curiosity)', year: 2012, desc: '핵 배터리로 작동하는 대형 로버' },
+        { name: '퍼서비어런스 + 인저뉴어티', year: 2021, desc: '화성 헬리콥터 첫 비행' },
+      ],
+      links: [
+        { label: '위키백과 - 화성', url: 'https://ko.wikipedia.org/wiki/%ED%99%94%EC%84%B1' },
+        { label: 'NASA Science - Mars', url: 'https://science.nasa.gov/mars/' },
+      ],
+    },
   },
   {
     id: 'jupiter',
@@ -114,6 +280,39 @@ const PLANETS = [
       { icon: '🌪️', label: '빨간 점', text: '빨간 점은 엄청 큰 태풍이에요' },
       { icon: '🟡', label: '친구', text: '위성이 95명! 그중 이오는 노란색이에요' },
     ],
+    advanced: {
+      image: 'assets/planets/jupiter.jpg',
+      imageCredit: 'NASA/JPL-Caltech/SwRI/MSSS - Juno',
+      tagline: '태양계에서 가장 큰 행성, 4개의 갈릴레이 위성을 가진 거인',
+      stats: [
+        { label: '지름', value: '139,822 km', sub: '지구의 약 11배' },
+        { label: '질량', value: '지구의 318배', sub: '다른 7개 행성을 합친 것보다 2.5배' },
+        { label: '태양과의 거리', value: '5.2 AU', sub: '약 7억 7,800만 km' },
+        { label: '공전 주기', value: '약 12 지구년' },
+        { label: '자전 주기', value: '9.9시간', sub: '행성 중 가장 빠름' },
+        { label: '평균 온도(구름 위)', value: '약 -108°C' },
+        { label: '위성', value: '95개', sub: '이오, 유로파, 가니메데, 칼리스토' },
+        { label: '표면 중력', value: '지구의 약 2.5배' },
+        { label: '대기', value: '수소 90%, 헬륨 10%' },
+      ],
+      story: [
+        '태양계에서 가장 큰 행성 — 다른 행성을 다 합친 것보다 2.5배 무거워요.',
+        '"대적점(Great Red Spot)"이라는 거대한 폭풍이 수백 년째 계속 돌고 있어요.',
+        '하루(자전)가 가장 짧은 행성이에요.',
+        '위성 가니메데는 수성보다도 커요.',
+        '1610년에 갈릴레이가 망원경으로 4대 위성을 발견했어요.',
+      ],
+      exploration: [
+        { name: '파이오니어 10호', year: 1973, desc: '목성을 처음 가까이서 본 탐사선' },
+        { name: '보이저 1·2호', year: 1979, desc: '위성 이오의 화산 활동을 발견' },
+        { name: '갈릴레오 (Galileo)', year: 1995, desc: '8년간 목성 궤도를 돌며 탐사' },
+        { name: '주노 (Juno)', year: 2016, desc: '~현재 — 목성 내부 구조 연구' },
+      ],
+      links: [
+        { label: '위키백과 - 목성', url: 'https://ko.wikipedia.org/wiki/%EB%AA%A9%EC%84%B1' },
+        { label: 'NASA Science - Jupiter', url: 'https://science.nasa.gov/jupiter/' },
+      ],
+    },
   },
   {
     id: 'saturn',
@@ -132,8 +331,41 @@ const PLANETS = [
     facts: [
       { icon: '💍', label: '고리', text: '고리는 얼음이랑 돌멩이로 만들어졌어요', interactive: 'rings' },
       { icon: '🛁', label: '무게', text: '물보다 가벼워서 욕조에 띄울 수도 있어요' },
-      { icon: '👨\u200d👩\u200d👧\u200d👦', label: '친구', text: '위성이 140명도 넘어요' },
+      { icon: '👨‍👩‍👧‍👦', label: '친구', text: '위성이 140명도 넘어요' },
     ],
+    advanced: {
+      image: 'assets/planets/saturn.jpg',
+      imageCredit: 'NASA/JPL-Caltech/Space Science Institute - Cassini',
+      tagline: '아름다운 고리를 가진 거대 가스 행성',
+      stats: [
+        { label: '지름', value: '120,536 km', sub: '지구의 약 9.4배' },
+        { label: '질량', value: '지구의 95배' },
+        { label: '태양과의 거리', value: '9.5 AU', sub: '약 14억 km' },
+        { label: '공전 주기', value: '약 29.4 지구년' },
+        { label: '자전 주기', value: '10.7시간' },
+        { label: '평균 온도(구름 위)', value: '약 -180°C' },
+        { label: '위성', value: '274개', sub: '타이탄, 엔셀라두스, 미마스 등 (태양계 최다)' },
+        { label: '표면 중력', value: '지구와 거의 비슷' },
+        { label: '대기', value: '수소 93%, 헬륨 5%' },
+      ],
+      story: [
+        '태양계에서 가장 아름다운 고리를 가진 행성이에요.',
+        '밀도가 물보다 낮아서 — 거대한 욕조가 있다면 토성이 뜰 거예요.',
+        '북극에 거대한 6각형 모양의 폭풍이 있어요.',
+        '위성 타이탄은 두꺼운 대기를 가진 유일한 위성이에요.',
+        '위성 엔셀라두스 얼음 아래에 물의 바다가 있을지도 몰라요.',
+      ],
+      exploration: [
+        { name: '파이오니어 11호', year: 1979, desc: '토성을 처음 가까이서 본 탐사선' },
+        { name: '보이저 1·2호', year: 1980, desc: '고리 구조를 자세히 관측' },
+        { name: '카시니-호이겐스', year: 2004, desc: '13년간 토성 궤도 탐사 (2017 임무 종료)' },
+        { name: '호이겐스 탐사선', year: 2005, desc: '타이탄에 착륙' },
+      ],
+      links: [
+        { label: '위키백과 - 토성', url: 'https://ko.wikipedia.org/wiki/%ED%86%A0%EC%84%B1' },
+        { label: 'NASA Science - Saturn', url: 'https://science.nasa.gov/saturn/' },
+      ],
+    },
   },
   {
     id: 'uranus',
@@ -154,6 +386,36 @@ const PLANETS = [
       { icon: '💨', label: '재료', text: '파란색 가스로 이루어져 있어요' },
       { icon: '🥶', label: '온도', text: '엄청엄청 차가워요. 영하 220도!' },
     ],
+    advanced: {
+      image: 'assets/planets/uranus.jpg',
+      imageCredit: 'NASA/JPL-Caltech - Voyager 2 (1986)',
+      tagline: '옆으로 누워 굴러가는 얼음 거인',
+      stats: [
+        { label: '지름', value: '50,532 km', sub: '지구의 약 4배' },
+        { label: '질량', value: '지구의 14.5배' },
+        { label: '태양과의 거리', value: '19 AU', sub: '약 29억 km' },
+        { label: '공전 주기', value: '약 84 지구년' },
+        { label: '자전 주기', value: '약 17시간' },
+        { label: '평균 온도(구름 위)', value: '약 -220°C', sub: '최저 -224°C' },
+        { label: '위성', value: '28개', sub: '티타니아, 오베론, 미란다 등' },
+        { label: '표면 중력', value: '지구의 0.89배' },
+        { label: '대기', value: '수소 83%, 헬륨 15%, 메탄 2%', sub: '메탄이 청록색을 만듦' },
+      ],
+      story: [
+        '자전축이 약 98° 기울어져 있어서 옆으로 누운 채로 돌아요.',
+        '1781년 윌리엄 허셜이 망원경으로 발견 — 망원경 시대에 처음 발견된 행성이에요.',
+        '메탄이 붉은 빛을 흡수해서 청록색으로 보여요.',
+        '위성 이름은 모두 셰익스피어와 알렉산더 포프 작품의 등장인물에서 따왔어요.',
+      ],
+      exploration: [
+        { name: '보이저 2호', year: 1986, desc: '천왕성을 가까이서 본 유일한 탐사선' },
+        { name: '허블 우주 망원경', year: 1990, desc: '~현재 — 대기 변화를 지속 관측' },
+      ],
+      links: [
+        { label: '위키백과 - 천왕성', url: 'https://ko.wikipedia.org/wiki/%EC%B2%9C%EC%99%95%EC%84%B1' },
+        { label: 'NASA Science - Uranus', url: 'https://science.nasa.gov/uranus/' },
+      ],
+    },
   },
   {
     id: 'neptune',
@@ -174,6 +436,37 @@ const PLANETS = [
       { icon: '📅', label: '1년', text: '태양에서 너무 멀어서 1년이 165년이에요' },
       { icon: '🔄', label: '친구', text: '트리톤 위성은 거꾸로 돌아요' },
     ],
+    advanced: {
+      image: 'assets/planets/neptune.jpg',
+      imageCredit: 'NASA/JPL - Voyager 2 (1989)',
+      tagline: '태양에서 가장 멀고 가장 바람이 센 행성',
+      stats: [
+        { label: '지름', value: '49,528 km', sub: '지구의 약 3.9배' },
+        { label: '질량', value: '지구의 17배' },
+        { label: '태양과의 거리', value: '30 AU', sub: '약 45억 km' },
+        { label: '공전 주기', value: '약 165 지구년' },
+        { label: '자전 주기', value: '약 16시간' },
+        { label: '평균 온도(구름 위)', value: '약 -218°C' },
+        { label: '위성', value: '16개', sub: '트리톤, 네레이드, 프로테우스 등' },
+        { label: '표면 중력', value: '지구의 1.14배' },
+        { label: '대기', value: '수소 80%, 헬륨 19%, 메탄 1%' },
+      ],
+      story: [
+        '태양에서 가장 먼 행성 — 해왕성에서 본 태양은 작은 별처럼 보여요.',
+        '시속 약 2,000 km의 태양계에서 가장 빠른 바람이 불어요.',
+        '1846년 수학으로 위치를 예측해 발견한 첫 행성 (천왕성 궤도 이상을 분석).',
+        '1년이 165 지구년 — 1846년 발견 이후 2011년에야 처음 태양을 한 바퀴 다 돌았어요.',
+        '위성 트리톤은 행성과 반대 방향으로 돌아요 (역행 위성).',
+      ],
+      exploration: [
+        { name: '보이저 2호', year: 1989, desc: '해왕성을 가까이서 본 유일한 탐사선' },
+        { name: '허블 우주 망원경', year: 1990, desc: '~현재 — 대기 관측' },
+      ],
+      links: [
+        { label: '위키백과 - 해왕성', url: 'https://ko.wikipedia.org/wiki/%ED%95%B4%EC%99%95%EC%84%B1' },
+        { label: 'NASA Science - Neptune', url: 'https://science.nasa.gov/neptune/' },
+      ],
+    },
   },
 ];
 

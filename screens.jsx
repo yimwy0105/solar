@@ -4,10 +4,10 @@
 // Intro Screen
 // ───────────────────────────────────────────────
 function IntroScreen({ onStart, motionReduced }) {
-  const [launching, setLaunching] = React.useState(false);
-  const handleStart = () => {
-    setLaunching(true);
-    setTimeout(onStart, motionReduced ? 100 : 1100);
+  const [launching, setLaunching] = React.useState(null); // null | 'kids' | 'advanced'
+  const handleStart = (mode) => {
+    setLaunching(mode);
+    setTimeout(() => onStart(mode), motionReduced ? 100 : 1100);
   };
   return (
     <div className="screen intro-screen" data-screen-label="01 Intro">
@@ -38,10 +38,27 @@ function IntroScreen({ onStart, motionReduced }) {
         </svg>
       </div>
       <h1 className="intro-title">우리 태양계 친구들을<br/>만나러 갈까요?</h1>
-      <button className="big-button pink-button" onClick={handleStart} disabled={launching}>
-        🚀 출발!
-      </button>
-      <p className="intro-sub">9명의 우주 친구가 너를 기다리고 있어!</p>
+      <div className="intro-mode-grid">
+        <button
+          className="mode-button mode-kids"
+          onClick={() => handleStart('kids')}
+          disabled={!!launching}
+        >
+          <div className="mode-emoji">🌈</div>
+          <div className="mode-title">유아용</div>
+          <div className="mode-desc">친구처럼 인사하고<br/>재미있게 놀아요</div>
+        </button>
+        <button
+          className="mode-button mode-advanced"
+          onClick={() => handleStart('advanced')}
+          disabled={!!launching}
+        >
+          <div className="mode-emoji">📚</div>
+          <div className="mode-title">초등 4~6학년</div>
+          <div className="mode-desc">사진·수치·탐사 기록까지<br/>제대로 공부해요</div>
+        </button>
+      </div>
+      <p className="intro-sub">9개의 우주 친구가 너를 기다리고 있어!</p>
     </div>
   );
 }
@@ -383,6 +400,123 @@ function DetailScreen({ planet, onBack, onNext, onSpeak, ttsEnabled, karaokeEnab
 }
 
 // ───────────────────────────────────────────────
+// Advanced Detail Screen — 초등 4~6학년용
+// ───────────────────────────────────────────────
+function AdvancedDetailScreen({ planet, onBack, onNext, onSpeak, ttsEnabled, nextPlanet }) {
+  const a = planet.advanced;
+  const [imgFailed, setImgFailed] = React.useState(false);
+
+  const speakAll = () => {
+    if (!onSpeak) return;
+    const parts = [planet.name, a.tagline, ...a.story];
+    onSpeak(parts.join(' '));
+  };
+
+  const speakLine = (text) => {
+    if (onSpeak) onSpeak(text);
+  };
+
+  return (
+    <div className="screen advanced-screen" data-screen-label={`03A ${planet.name}`}>
+      <Starfield count={60} />
+
+      <header className="adv-header">
+        <button className="ghost-button" onClick={onBack} aria-label="우주로 돌아가기">
+          ← 우주로 돌아가기
+        </button>
+        <button className="ghost-button" onClick={speakAll} disabled={!ttsEnabled}>
+          {ttsEnabled ? '🔊 전체 들려줘' : '🔇 음성 꺼짐'}
+        </button>
+      </header>
+
+      <article className="adv-body">
+        <section className="adv-hero">
+          <div className="adv-photo-wrap">
+            {!imgFailed ? (
+              <img
+                className="adv-photo"
+                src={a.image}
+                alt={`${planet.name} 사진 (${a.imageCredit})`}
+                onError={() => setImgFailed(true)}
+              />
+            ) : (
+              <div className="adv-photo-fallback">
+                <PlanetSVG planet={planet} size={320} spinning={false} />
+              </div>
+            )}
+            <p className="adv-photo-credit">사진: {a.imageCredit}</p>
+          </div>
+          <div className="adv-headline">
+            <div className="adv-eyebrow">{planet.emoji} 행성 카드</div>
+            <h1 className="adv-name">{planet.name}</h1>
+            <p className="adv-tagline">{a.tagline}</p>
+          </div>
+        </section>
+
+        <section className="adv-section">
+          <h2 className="adv-section-title">📊 기본 데이터</h2>
+          <div className="adv-stats">
+            {a.stats.map((s, i) => (
+              <div key={i} className="adv-stat">
+                <div className="adv-stat-label">{s.label}</div>
+                <div className="adv-stat-value">{s.value}</div>
+                {s.sub && <div className="adv-stat-sub">{s.sub}</div>}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="adv-section">
+          <h2 className="adv-section-title">✨ 흥미로운 사실</h2>
+          <ul className="adv-story">
+            {a.story.map((s, i) => (
+              <li key={i}>
+                <button className="adv-story-item" onClick={() => speakLine(s)} disabled={!ttsEnabled}>
+                  <span className="adv-story-icon">{ttsEnabled ? '🔊' : '•'}</span>
+                  <span className="adv-story-text">{s}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="adv-section">
+          <h2 className="adv-section-title">🚀 탐사 역사</h2>
+          <ol className="adv-timeline">
+            {a.exploration.map((e, i) => (
+              <li key={i} className="adv-timeline-item">
+                <div className="adv-timeline-year">{e.year}</div>
+                <div className="adv-timeline-body">
+                  <div className="adv-timeline-name">{e.name}</div>
+                  <div className="adv-timeline-desc">{e.desc}</div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="adv-section">
+          <h2 className="adv-section-title">🔗 더 공부하기</h2>
+          <ul className="adv-links">
+            {a.links.map((l, i) => (
+              <li key={i}>
+                <a href={l.url} target="_blank" rel="noopener noreferrer" className="adv-link">
+                  {l.label} <span className="adv-link-arrow">↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <button className="big-button mint-button next-button" onClick={onNext}>
+          {nextPlanet ? `✨ ${nextPlanet.name} 만나러 가기` : '🌟 끝까지 다 봤어!'}
+        </button>
+      </article>
+    </div>
+  );
+}
+
+// ───────────────────────────────────────────────
 // Completion Screen
 // ───────────────────────────────────────────────
 function CompletionScreen({ planets, onRestart }) {
@@ -424,4 +558,4 @@ function CompletionScreen({ planets, onRestart }) {
   );
 }
 
-Object.assign(window, { IntroScreen, HomeScreen, DetailScreen, CompletionScreen });
+Object.assign(window, { IntroScreen, HomeScreen, DetailScreen, AdvancedDetailScreen, CompletionScreen });

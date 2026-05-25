@@ -4,6 +4,7 @@ function App() {
   const [tweaks, setTweak] = useTweaks(defaults);
 
   const [screen, setScreen] = React.useState('intro'); // 'intro' | 'home' | 'detail' | 'done'
+  const [mode, setMode] = React.useState('kids'); // 'kids' | 'advanced'
   const [currentId, setCurrentId] = React.useState(null);
   const [visited, setVisited] = React.useState([]);
 
@@ -125,7 +126,12 @@ function App() {
   return (
     <React.Fragment>
       <div className="app-root">
-        {screen === 'intro' && <IntroScreen onStart={() => setScreen('home')} motionReduced={motionReduced} />}
+        {screen === 'intro' && (
+          <IntroScreen
+            onStart={(m) => { setMode(m); setScreen('home'); }}
+            motionReduced={motionReduced}
+          />
+        )}
         {screen === 'home' && (
           <HomeScreen
             planets={planets}
@@ -136,7 +142,17 @@ function App() {
             layout={tweaks.homeLayout}
           />
         )}
-        {screen === 'detail' && current && (
+        {screen === 'detail' && current && mode === 'advanced' && (
+          <AdvancedDetailScreen
+            planet={current}
+            onBack={handleBack}
+            onNext={handleNext}
+            onSpeak={speak}
+            ttsEnabled={ttsEnabled}
+            nextPlanet={nextPlanet}
+          />
+        )}
+        {screen === 'detail' && current && mode !== 'advanced' && (
           <DetailScreen
             planet={current}
             onBack={handleBack}
