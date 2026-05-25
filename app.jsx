@@ -56,7 +56,7 @@ function App() {
     }
     if (!ttsEnabled || !('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
+    const u = new SpeechSynthesisUtterance(text.replace(/~/g, ''));
     u.lang = 'ko-KR';
     // Pick the chosen voice, else the best available Korean voice
     const all = window.speechSynthesis.getVoices();
