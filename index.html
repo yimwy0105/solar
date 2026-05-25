@@ -1268,6 +1268,11 @@
   }
   .quiz-option-text { flex: 1 1 auto; }
   .quiz-next { align-self: center; min-width: 200px; }
+
+  /* 유아 모드 — 옵션/번호/질문 키움 */
+  .quiz-screen--kids .quiz-question { font-size: clamp(26px, 4vw, 36px); }
+  .quiz-screen--kids .quiz-option { font-size: 22px; padding: 18px 22px; gap: 16px; }
+  .quiz-screen--kids .quiz-option-num { flex: 0 0 40px; height: 40px; font-size: 18px; }
   .quiz-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
   /* ─── Quiz Result ─── */

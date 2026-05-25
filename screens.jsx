@@ -638,7 +638,7 @@ function QuizScreen({ mode, onComplete, onHome, onSpeak, ttsEnabled }) {
   }
 
   return (
-    <div className="screen quiz-screen" data-screen-label="Quiz">
+    <div className={`screen quiz-screen ${mode === 'kids' ? 'quiz-screen--kids' : ''}`} data-screen-label="Quiz">
       <Starfield count={50} />
 
       <header className="quiz-header">
